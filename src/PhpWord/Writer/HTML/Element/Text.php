@@ -114,6 +114,9 @@ class Text extends AbstractElement
     protected function writeOpening()
     {
         $content = '';
+        if ($this->element->getParent() && get_class($this->element->getParent()) === \PhpOffice\PhpWord\Element\ListItemRun::class) {
+            $content .= '<li>';
+        }
         if (!$this->withoutP) {
             $style = '';
             if (method_exists($this->element, 'getParagraphStyle')) {
@@ -148,6 +151,10 @@ class Text extends AbstractElement
             }
 
             $content .= '</p>' . PHP_EOL;
+        }
+
+        if ($this->element->getParent() && get_class($this->element->getParent()) === \PhpOffice\PhpWord\Element\ListItemRun::class) {
+            $content .= '</li>';
         }
 
         return $content;
